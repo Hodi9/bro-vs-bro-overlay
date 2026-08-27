@@ -134,18 +134,6 @@
   .hero { position: relative; width: 100%; height: 100%; overflow: hidden; }
   .hero-inner { position: relative; width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; }
 
-  .corner-brackets span {
-    position: absolute;
-    width: 46px;
-    height: 46px;
-    z-index: 9;
-    border: 6px solid var(--coin);
-  }
-  .corner-brackets .tl { top: 28px; left: 28px; border-right: none; border-bottom: none; }
-  .corner-brackets .tr { top: 28px; right: 28px; border-left: none; border-bottom: none; }
-  .corner-brackets .bl { bottom: 28px; left: 28px; border-right: none; border-top: none; }
-  .corner-brackets .br { bottom: 28px; right: 28px; border-left: none; border-top: none; }
-
   .corner { position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
   .corner.marcelo-corner { background: #170a12; }
   .corner.aggo-corner { background: #061a1e; }
@@ -195,28 +183,13 @@
     border-left: 6px dashed var(--coin);
     opacity: 0.9;
   }
-  .vs-medal {
-    position: absolute; top: 50%; left: 50%; z-index: 6;
-    transform: translate(-50%, -50%);
-    width: 150px; height: 150px;
-    background: var(--coin);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .vs-medal span {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 26px;
-    color: var(--ink);
-    margin-top: 6px;
-  }
-
-  .hero-title { position: absolute; top: 56px; left: 50%; transform: translateX(-50%); z-index: 7; text-align: center; }
+  .hero-title { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 7; text-align: center; }
   .hero-title .lockup {
     font-family: 'Press Start 2P', monospace;
-    font-size: 58px;
+    font-size: 72px;
     letter-spacing: 0.02em;
     color: var(--bone);
-    text-shadow: 5px 5px 0 var(--p1), 10px 10px 0 var(--p2);
+    text-shadow: 6px 6px 0 var(--p1), 12px 12px 0 var(--p2);
   }
 </style>
 </head>
@@ -266,10 +239,6 @@
           </div>
         </div>
         <div class="center-divider"></div>
-        <div class="vs-medal"><span>VS</span></div>
-        <div class="corner-brackets">
-          <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
-        </div>
       </div>
       <div class="scanlines"></div>
     </div>

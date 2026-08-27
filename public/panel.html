@@ -5,96 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bro vs Bro — Panel</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
   :root {
-    --ink: #15130f;
-    --panel: #1d1a15;
-    --panel-2: #241f18;
-    --bone: #f3ede0;
-    --bone-dim: #a89d89;
-    --marcelo: #c9702f;
-    --aggo: #3f93b5;
-    --gold: #d7ab4d;
-    --line: rgba(243, 237, 224, 0.12);
-    --danger: #c85a4e;
+    --ink: #0a0a16;
+    --panel: #150e26;
+    --panel-2: #1c1330;
+    --bone: #f1edff;
+    --bone-dim: #8f87ac;
+    --p1: #ff3864;
+    --p2: #1ee8ff;
+    --coin: #ffd23f;
+    --line: rgba(241, 237, 255, 0.14);
+    --danger: #ff6b3d;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     background: var(--ink);
     color: var(--bone);
-    font-family: 'Barlow', system-ui, sans-serif;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
     min-height: 100vh;
+    position: relative;
   }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 24px; }
-  h1 { font-family: 'Anton', sans-serif; font-size: 26px; text-transform: uppercase; margin: 0; }
-  .sub { color: var(--bone-dim); font-size: 13px; margin: 4px 0 0; }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0px, rgba(255, 255, 255, 0.025) 1px, transparent 2px, transparent 3px);
+  }
+  .wrap { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 24px; }
+  h1 { font-family: 'Press Start 2P', monospace; font-size: 20px; text-transform: uppercase; margin: 0; line-height: 1.4; text-shadow: 3px 3px 0 var(--p1), 6px 6px 0 var(--p2); }
+  .sub { color: var(--bone-dim); font-size: 15px; margin: 8px 0 0; }
+  .sub code { color: var(--coin); }
 
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
-  .card h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 13px; color: var(--gold); margin: 0 0 16px; }
+  .card { background: var(--panel); border: 2px solid var(--panel-2); box-shadow: 0 0 0 2px var(--cabinet-edge, #0d0819); padding: 20px; }
+  .card h2 { font-family: 'Press Start 2P', monospace; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; font-size: 12px; color: var(--coin); margin: 0 0 18px; }
 
   .players { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .player { background: var(--panel-2); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; border-top: 3px solid var(--accent); }
-  .player.marcelo { --accent: var(--marcelo); }
-  .player.aggo { --accent: var(--aggo); }
-  .player-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 15px; }
-  .player-score { font-family: 'Anton', sans-serif; font-size: 44px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .player { background: var(--panel-2); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; border-top: 4px solid var(--accent); }
+  .player.marcelo { --accent: var(--p1); }
+  .player.aggo { --accent: var(--p2); }
+  .player-name { font-family: 'VT323', monospace; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; font-size: 20px; }
+  .player-score { font-family: 'Press Start 2P', monospace; font-size: 34px; color: var(--accent); text-shadow: 0 0 12px var(--accent); font-variant-numeric: tabular-nums; }
   .score-controls { display: flex; gap: 10px; }
   .score-btn {
-    appearance: none; border: 1px solid var(--line); background: var(--panel); color: var(--bone);
-    width: 44px; height: 44px; border-radius: 8px; font-size: 20px; cursor: pointer;
+    appearance: none; border: 2px solid var(--line); background: var(--panel); color: var(--bone);
+    width: 44px; height: 44px; font-size: 20px; cursor: pointer; font-family: 'VT323', monospace;
   }
   .score-btn:hover { border-color: var(--accent); color: var(--accent); }
   .score-btn:active { transform: scale(0.94); }
 
   .row { display: flex; gap: 10px; align-items: center; }
   .field {
-    flex: 1; background: var(--panel-2); border: 1px solid var(--line); color: var(--bone);
-    padding: 10px 12px; border-radius: 6px; font-family: 'Barlow', sans-serif; font-size: 14px;
+    flex: 1; background: var(--panel-2); border: 2px solid var(--line); color: var(--bone);
+    padding: 10px 12px; font-family: 'VT323', monospace; font-size: 17px;
   }
-  .field:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .field:focus { outline: 2px solid var(--coin); outline-offset: 1px; }
   .btn {
-    appearance: none; border: 1px solid var(--line); background: var(--panel-2); color: var(--bone);
-    padding: 10px 16px; border-radius: 6px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
-    letter-spacing: 0.06em; text-transform: uppercase; font-size: 13px; cursor: pointer;
+    appearance: none; border: 2px solid var(--line); background: var(--panel-2); color: var(--bone);
+    padding: 10px 16px; font-family: 'VT323', monospace; font-weight: 400;
+    letter-spacing: 0.04em; text-transform: uppercase; font-size: 16px; cursor: pointer;
   }
-  .btn:hover { border-color: var(--gold); color: var(--gold); }
-  .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .btn:hover { border-color: var(--coin); color: var(--coin); }
+  .btn.primary { background: var(--coin); border-color: var(--coin); color: var(--ink); font-weight: 700; }
   .btn.primary:hover { opacity: 0.9; color: var(--ink); }
   .btn.danger { color: var(--danger); }
   .btn.danger:hover { border-color: var(--danger); }
 
   .current-dyst { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .current-dyst .name { font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase; }
-  .round-pill { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; color: var(--bone-dim); }
+  .current-dyst .name { font-family: 'Press Start 2P', monospace; font-size: 18px; text-transform: uppercase; color: var(--bone); }
+  .round-pill { font-family: 'VT323', monospace; letter-spacing: 0.04em; text-transform: uppercase; font-size: 15px; color: var(--coin); }
 
   .queue-list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .queue-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--panel-2); border-radius: 6px; padding: 8px 12px; font-size: 14px; }
-  .queue-item .pos { color: var(--bone-dim); font-family: 'Barlow Condensed', sans-serif; font-size: 12px; }
+  .queue-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--panel-2); padding: 8px 12px; font-size: 17px; }
+  .queue-item .pos { color: var(--coin); font-family: 'VT323', monospace; font-size: 15px; }
   .queue-item button { appearance: none; border: none; background: transparent; color: var(--bone-dim); cursor: pointer; font-size: 16px; }
   .queue-item button:hover { color: var(--danger); }
-  .empty { color: var(--bone-dim); font-size: 13px; font-style: italic; }
+  .empty { color: var(--bone-dim); font-size: 15px; font-style: italic; }
 
   .preset-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
   .preset-btn {
-    appearance: none; border: 1px solid var(--line); background: transparent; color: var(--bone-dim);
-    padding: 6px 12px; border-radius: 999px; font-size: 12px; cursor: pointer;
+    appearance: none; border: 2px solid var(--line); background: transparent; color: var(--bone-dim);
+    padding: 6px 12px; font-size: 14px; cursor: pointer; font-family: 'VT323', monospace;
   }
-  .preset-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .preset-btn:hover { border-color: var(--coin); color: var(--coin); }
 
   .log { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
-  .log-item { font-size: 13px; color: var(--bone-dim); display: flex; gap: 8px; }
+  .log-item { font-size: 16px; color: var(--bone-dim); display: flex; gap: 8px; }
   .log-item time { font-variant-numeric: tabular-nums; opacity: 0.7; }
 
-  .lock { display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
+  .lock { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
   .lock input { width: 240px; }
   .toast {
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    background: var(--danger); color: var(--bone); padding: 10px 18px; border-radius: 6px; font-size: 13px;
-    opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+    background: var(--p1); color: var(--bone); padding: 10px 18px; font-size: 15px;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease; font-family: 'VT323', monospace;
+    border: 2px solid var(--ink);
   }
   .toast.show { opacity: 1; }
+  .toast.success { background: #2fb86b; }
 </style>
 </head>
 <body>
@@ -186,8 +199,9 @@
 
   document.getElementById("overlay-url").textContent = location.origin + "/overlay";
 
-  function showToast(msg) {
+  function showToast(msg, success) {
     toast.textContent = msg;
+    toast.classList.toggle("success", Boolean(success));
     toast.classList.add("show");
     setTimeout(() => toast.classList.remove("show"), 2200);
   }
@@ -201,16 +215,22 @@
     lock.hidden = true;
   }
 
+  function verify(candidateToken) {
+    token = candidateToken;
+    socket.emit("panel:action", { type: "ping", token });
+  }
+
   document.getElementById("unlock-btn").addEventListener("click", () => {
-    token = document.getElementById("key-input").value;
-    localStorage.setItem("bvb-panel-key", token);
-    tryUnlock();
+    verify(document.getElementById("key-input").value);
+  });
+  document.getElementById("key-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("unlock-btn").click();
   });
 
   socket.on("config", (cfg) => {
     requiresKey = cfg.requiresKey;
     if (!requiresKey) { tryUnlock(); }
-    else if (token) { tryUnlock(); }
+    else if (token) { verify(token); }
     const row = document.getElementById("preset-row");
     row.innerHTML = "";
     cfg.dysterPreset.forEach((name) => {
@@ -227,6 +247,12 @@
     app.hidden = true;
     lock.hidden = false;
     localStorage.removeItem("bvb-panel-key");
+  });
+
+  socket.on("panel:ok", () => {
+    localStorage.setItem("bvb-panel-key", token);
+    if (app.hidden) showToast("Adgang godkendt ✓", true);
+    tryUnlock();
   });
 
   socket.on("state", (s) => {

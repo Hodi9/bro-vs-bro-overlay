@@ -86,6 +86,10 @@ io.on("connection", (socket) => {
     }
 
     switch (type) {
+      case "ping": {
+        socket.emit("panel:ok");
+        return;
+      }
       case "score:inc": {
         const p = payload.player;
         if (p === "marcelo" || p === "aggo") {
