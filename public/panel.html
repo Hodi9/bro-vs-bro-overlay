@@ -43,7 +43,14 @@
   .sub code { color: var(--coin); }
 
   .card { background: var(--panel); border: 2px solid var(--panel-2); box-shadow: 0 0 0 2px var(--cabinet-edge, #0d0819); padding: 20px; }
-  .card h2 { font-family: 'Press Start 2P', monospace; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; font-size: 12px; color: var(--coin); margin: 0 0 18px; }
+  .card h2 { font-family: 'Press Start 2P', monospace; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; font-size: 12px; color: var(--coin); margin: 0; }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .clear-btn {
+    appearance: none; border: 2px solid var(--line); background: transparent; color: var(--bone-dim);
+    width: 28px; height: 28px; font-size: 14px; cursor: pointer; font-family: 'VT323', monospace; line-height: 1;
+    flex-shrink: 0;
+  }
+  .clear-btn:hover { border-color: var(--danger); color: var(--danger); }
 
   .players { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .player { background: var(--panel-2); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; border-top: 4px solid var(--accent); }
@@ -93,6 +100,7 @@
     padding: 6px 12px; font-size: 14px; cursor: pointer; font-family: 'VT323', monospace;
   }
   .preset-btn:hover { border-color: var(--coin); color: var(--coin); }
+  .preset-btn.active { border-color: var(--coin); color: var(--coin); background: rgba(255, 210, 63, 0.12); }
 
   .log { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
   .log-item { font-size: 16px; color: var(--bone-dim); display: flex; gap: 8px; }
@@ -141,7 +149,10 @@
   </div>
 
   <div class="card">
-    <h2>Nuværende dyst</h2>
+    <div class="card-head">
+      <h2>Nuværende dyst</h2>
+      <button class="clear-btn" id="clear-current-btn" title="Ryd nuværende dyst" aria-label="Ryd nuværende dyst">✕</button>
+    </div>
     <div class="current-dyst">
       <span class="name" id="current-name">—</span>
       <span class="round-pill" id="round-pill">Runde 1</span>
@@ -231,15 +242,6 @@
     requiresKey = cfg.requiresKey;
     if (!requiresKey) { tryUnlock(); }
     else if (token) { verify(token); }
-    const row = document.getElementById("preset-row");
-    row.innerHTML = "";
-    cfg.dysterPreset.forEach((name) => {
-      const b = document.createElement("button");
-      b.className = "preset-btn";
-      b.textContent = name;
-      b.addEventListener("click", () => send("dyst:setCurrent", { name }));
-      row.appendChild(b);
-    });
   });
 
   socket.on("panel:denied", () => {
@@ -266,6 +268,18 @@
     document.getElementById("score-aggo").textContent = state.scores.aggo;
     document.getElementById("current-name").textContent = state.current?.name || "—";
     document.getElementById("round-pill").textContent = "Runde " + state.round;
+
+    const presetRow = document.getElementById("preset-row");
+    presetRow.innerHTML = "";
+    const presetNames = [...new Set(state.queue.map((d) => d.name))];
+    presetNames.forEach((name) => {
+      const b = document.createElement("button");
+      b.className = "preset-btn";
+      if (state.current?.name === name) b.classList.add("active");
+      b.textContent = name;
+      b.addEventListener("click", () => send("dyst:setCurrent", { name }));
+      presetRow.appendChild(b);
+    });
 
     const list = document.getElementById("queue-list");
     list.innerHTML = "";
@@ -322,6 +336,7 @@
     if (e.key === "Enter") document.getElementById("queue-add-btn").click();
   });
 
+  document.getElementById("clear-current-btn").addEventListener("click", () => send("dyst:clear"));
   document.getElementById("next-btn").addEventListener("click", () => send("dyst:next"));
   document.getElementById("reset-scores-btn").addEventListener("click", () => {
     if (confirm("Nulstil point for begge spillere?")) send("reset:scores");

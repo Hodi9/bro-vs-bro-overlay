@@ -151,6 +151,11 @@ io.on("connection", (socket) => {
         }
         break;
       }
+      case "dyst:clear": {
+        state.current = null;
+        pushLog("Dyst ryddet");
+        break;
+      }
       case "reset:scores": {
         state.scores = { marcelo: 0, aggo: 0 };
         pushLog("Scores nulstillet");
