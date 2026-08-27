@@ -60,47 +60,31 @@
   .sb-center .round-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: 9px; color: var(--bone-dim); text-align: center; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .sb-center .round-num { font-family: 'Anton', sans-serif; font-size: 22px; color: var(--bone); }
 
-  /* ---- badges (facecam corners) ---- */
-  #badges-view { padding: 24px; display: flex; gap: 24px; }
-  .badge { display: flex; align-items: center; gap: 12px; background: rgba(21, 19, 15, 0.88); border: 1px solid var(--line); border-radius: 10px; padding: 8px 18px 8px 8px; box-shadow: 0 18px 40px -20px var(--shadow); }
-  .badge-photo { width: 58px; height: 58px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
-  .badge.is-marcelo .badge-photo { border: 3px solid var(--marcelo); }
-  .badge.is-aggo .badge-photo { border: 3px solid var(--aggo); }
-  .badge-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; }
-  .badge.is-marcelo .badge-photo img { object-position: center 40%; }
-  .badge-text { display: flex; flex-direction: column; gap: 2px; }
-  .badge-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 14px; }
-  .badge-score { font-family: 'Anton', sans-serif; font-size: 22px; font-variant-numeric: tabular-nums; }
-  .badge.is-marcelo .badge-score { color: var(--marcelo); }
-  .badge.is-aggo .badge-score { color: var(--aggo); }
-
   /* ---- fight card (intro / transition) ---- */
-  #fightcard-view { width: 1280px; height: 400px; position: relative; }
+  #fightcard-view { width: 1920px; height: 1080px; position: relative; }
   .hero { position: relative; width: 100%; height: 100%; overflow: hidden; }
   .hero-inner { position: relative; width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; }
   .corner { position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
   .corner.marcelo-corner { background: linear-gradient(160deg, #2a1408 0%, #1d1a15 72%); }
   .corner.aggo-corner { background: linear-gradient(200deg, #08222b 0%, #1d1a15 72%); }
-  .corner-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 20%; filter: grayscale(1) contrast(1.15) brightness(0.85); mix-blend-mode: luminosity; }
-  .corner.marcelo-corner .corner-photo { object-position: center 45%; }
+  .corner-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; filter: grayscale(1) contrast(1.15) brightness(0.85); mix-blend-mode: luminosity; }
+  .corner.marcelo-corner .corner-photo { object-position: center 40%; }
+  .corner.aggo-corner .corner-photo { object-position: center 50%; }
   .corner.marcelo-corner::before, .corner.aggo-corner::before { content: ""; position: absolute; inset: 0; mix-blend-mode: color; z-index: 1; }
   .corner.marcelo-corner::before { background: var(--marcelo); }
   .corner.aggo-corner::before { background: var(--aggo); }
   .corner.marcelo-corner::after, .corner.aggo-corner::after { content: ""; position: absolute; inset: 0; z-index: 2; background: linear-gradient(0deg, #1d1a15 0%, transparent 46%); }
-  .corner-label { position: relative; z-index: 3; width: 100%; padding: 18px 22px 20px; display: flex; flex-direction: column; gap: 2px; }
+  .corner-label { position: relative; z-index: 3; width: 100%; padding: 40px 64px 56px; display: flex; flex-direction: column; gap: 8px; }
   .marcelo-corner .corner-label { text-align: left; align-items: flex-start; }
   .aggo-corner .corner-label { text-align: right; align-items: flex-end; }
-  .corner-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; font-size: 11px; }
+  .corner-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; font-size: 22px; }
   .marcelo-corner .corner-eyebrow { color: var(--marcelo); }
   .aggo-corner .corner-eyebrow { color: var(--aggo); }
-  .corner-name { font-family: 'Anton', sans-serif; font-size: 48px; line-height: 0.92; text-transform: uppercase; color: var(--bone); }
-  .vs-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; width: 96px; height: 96px; border-radius: 50%; background: var(--ink); border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 7px #1d1a15, 0 20px 40px -12px var(--shadow); }
-  .vs-badge span { font-family: 'Anton', sans-serif; font-size: 24px; color: var(--gold); }
-  .hero-title { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); z-index: 6; text-align: center; }
-  .hero-title .kicker { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; font-size: 11px; color: var(--gold); display: block; margin-bottom: 4px; }
-  .hero-title .lockup { font-family: 'Anton', sans-serif; font-size: 30px; color: var(--bone); }
-  .hero-footer { position: absolute; bottom: 0; left: 0; right: 0; z-index: 6; display: flex; justify-content: center; padding-bottom: 16px; }
-  .event-strip { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; font-size: 11px; color: var(--bone-dim); background: rgba(21, 19, 15, 0.7); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; }
+  .corner-name { font-family: 'Anton', sans-serif; font-size: 140px; line-height: 0.92; text-transform: uppercase; color: var(--bone); }
+  .vs-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; width: 200px; height: 200px; border-radius: 50%; background: var(--ink); border: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 14px #1d1a15, 0 30px 70px -16px var(--shadow); }
+  .vs-badge span { font-family: 'Anton', sans-serif; font-size: 50px; color: var(--gold); }
+  .hero-title { position: absolute; top: 72px; left: 50%; transform: translateX(-50%); z-index: 6; text-align: center; }
+  .hero-title .lockup { font-family: 'Anton', sans-serif; font-size: 72px; letter-spacing: 0.02em; color: var(--bone); text-shadow: 0 10px 40px var(--shadow); }
 </style>
 </head>
 <body>
@@ -125,21 +109,10 @@
     </div>
   </div>
 
-  <div id="badges-view" data-view>
-    <div class="badge is-marcelo">
-      <div class="badge-photo"><img src="/images/marcelo.png" alt="Marcelo" /></div>
-      <div class="badge-text"><span class="badge-name">Marcelo</span><span class="badge-score" id="badge-marcelo-score">0</span></div>
-    </div>
-    <div class="badge is-aggo">
-      <div class="badge-photo"><img src="/images/aggo.png" alt="Aggo" /></div>
-      <div class="badge-text"><span class="badge-name">Aggo</span><span class="badge-score" id="badge-aggo-score">0</span></div>
-    </div>
-  </div>
-
   <div id="fightcard-view" data-view>
     <div class="hero">
       <div class="hero-inner">
-        <div class="hero-title"><span class="kicker">Marcel Teamet præsenterer</span><span class="lockup">BRO VS BRO</span></div>
+        <div class="hero-title"><span class="lockup">BRO VS BRO</span></div>
         <div class="corner marcelo-corner">
           <img class="corner-photo" src="/images/marcelo.png" alt="Marcelo" />
           <div class="corner-label"><span class="corner-eyebrow">Rødt hjørne</span><span class="corner-name">Marcelo</span></div>
@@ -149,7 +122,6 @@
           <div class="corner-label"><span class="corner-eyebrow">Blåt hjørne</span><span class="corner-name">Aggo</span></div>
         </div>
         <div class="vs-badge"><span>VS</span></div>
-        <div class="hero-footer"><div class="event-strip" id="fc-dyst">Dart &middot; Runde 1</div></div>
       </div>
     </div>
   </div>
@@ -180,14 +152,6 @@
     const rl = document.getElementById("sb-round-label");
     if (rn) rn.textContent = state.round;
     if (rl) rl.textContent = state.current?.name || "";
-
-    const bM = document.getElementById("badge-marcelo-score");
-    const bA = document.getElementById("badge-aggo-score");
-    if (bM) bM.textContent = state.scores.marcelo;
-    if (bA) bA.textContent = state.scores.aggo;
-
-    const fc = document.getElementById("fc-dyst");
-    if (fc) fc.textContent = (state.current?.name || "") + " · Runde " + state.round;
 
     lastScores = { ...state.scores };
   });
