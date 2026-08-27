@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bro vs Bro — Panel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap');
+
+  :root {
+    --ink: #15130f;
+    --panel: #1d1a15;
+    --panel-2: #241f18;
+    --bone: #f3ede0;
+    --bone-dim: #a89d89;
+    --marcelo: #c9702f;
+    --aggo: #3f93b5;
+    --gold: #d7ab4d;
+    --line: rgba(243, 237, 224, 0.12);
+    --danger: #c85a4e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Barlow', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 24px; }
+  h1 { font-family: 'Anton', sans-serif; font-size: 26px; text-transform: uppercase; margin: 0; }
+  .sub { color: var(--bone-dim); font-size: 13px; margin: 4px 0 0; }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+  .card h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-size: 13px; color: var(--gold); margin: 0 0 16px; }
+
+  .players { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .player { background: var(--panel-2); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; border-top: 3px solid var(--accent); }
+  .player.marcelo { --accent: var(--marcelo); }
+  .player.aggo { --accent: var(--aggo); }
+  .player-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 15px; }
+  .player-score { font-family: 'Anton', sans-serif; font-size: 44px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .score-controls { display: flex; gap: 10px; }
+  .score-btn {
+    appearance: none; border: 1px solid var(--line); background: var(--panel); color: var(--bone);
+    width: 44px; height: 44px; border-radius: 8px; font-size: 20px; cursor: pointer;
+  }
+  .score-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .score-btn:active { transform: scale(0.94); }
+
+  .row { display: flex; gap: 10px; align-items: center; }
+  .field {
+    flex: 1; background: var(--panel-2); border: 1px solid var(--line); color: var(--bone);
+    padding: 10px 12px; border-radius: 6px; font-family: 'Barlow', sans-serif; font-size: 14px;
+  }
+  .field:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .btn {
+    appearance: none; border: 1px solid var(--line); background: var(--panel-2); color: var(--bone);
+    padding: 10px 16px; border-radius: 6px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; font-size: 13px; cursor: pointer;
+  }
+  .btn:hover { border-color: var(--gold); color: var(--gold); }
+  .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .btn.primary:hover { opacity: 0.9; color: var(--ink); }
+  .btn.danger { color: var(--danger); }
+  .btn.danger:hover { border-color: var(--danger); }
+
+  .current-dyst { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .current-dyst .name { font-family: 'Anton', sans-serif; font-size: 22px; text-transform: uppercase; }
+  .round-pill { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; color: var(--bone-dim); }
+
+  .queue-list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .queue-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--panel-2); border-radius: 6px; padding: 8px 12px; font-size: 14px; }
+  .queue-item .pos { color: var(--bone-dim); font-family: 'Barlow Condensed', sans-serif; font-size: 12px; }
+  .queue-item button { appearance: none; border: none; background: transparent; color: var(--bone-dim); cursor: pointer; font-size: 16px; }
+  .queue-item button:hover { color: var(--danger); }
+  .empty { color: var(--bone-dim); font-size: 13px; font-style: italic; }
+
+  .preset-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .preset-btn {
+    appearance: none; border: 1px solid var(--line); background: transparent; color: var(--bone-dim);
+    padding: 6px 12px; border-radius: 999px; font-size: 12px; cursor: pointer;
+  }
+  .preset-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .log { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
+  .log-item { font-size: 13px; color: var(--bone-dim); display: flex; gap: 8px; }
+  .log-item time { font-variant-numeric: tabular-nums; opacity: 0.7; }
+
+  .lock { display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
+  .lock input { width: 240px; }
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--danger); color: var(--bone); padding: 10px 18px; border-radius: 6px; font-size: 13px;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+  }
+  .toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="app" hidden>
+  <div>
+    <h1>Bro vs Bro — Kontrolpanel</h1>
+    <p class="sub">Overlay-url til OBS/Pogly: <code id="overlay-url"></code></p>
+  </div>
+
+  <div class="card">
+    <h2>Point</h2>
+    <div class="players">
+      <div class="player marcelo">
+        <span class="player-name">Marcelo</span>
+        <span class="player-score" id="score-marcelo">0</span>
+        <div class="score-controls">
+          <button class="score-btn" data-action="score:dec" data-player="marcelo">&minus;</button>
+          <button class="score-btn" data-action="score:inc" data-player="marcelo">+</button>
+        </div>
+      </div>
+      <div class="player aggo">
+        <span class="player-name">Aggo</span>
+        <span class="player-score" id="score-aggo">0</span>
+        <div class="score-controls">
+          <button class="score-btn" data-action="score:dec" data-player="aggo">&minus;</button>
+          <button class="score-btn" data-action="score:inc" data-player="aggo">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Nuværende dyst</h2>
+    <div class="current-dyst">
+      <span class="name" id="current-name">—</span>
+      <span class="round-pill" id="round-pill">Runde 1</span>
+    </div>
+    <div class="row" style="margin-top: 14px;">
+      <input class="field" id="dyst-input" placeholder="Sæt dyst manuelt, fx Bowling" />
+      <button class="btn" id="set-dyst-btn">Sæt</button>
+    </div>
+    <div class="preset-row" id="preset-row"></div>
+  </div>
+
+  <div class="card">
+    <h2>Næste dyster</h2>
+    <ul class="queue-list" id="queue-list"></ul>
+    <div class="row" style="margin-top: 14px;">
+      <input class="field" id="queue-input" placeholder="Tilføj dyst til køen" />
+      <button class="btn" id="queue-add-btn">Tilføj</button>
+    </div>
+    <button class="btn primary" id="next-btn" style="margin-top: 14px; width: 100%;">Start næste dyst i køen →</button>
+  </div>
+
+  <div class="card">
+    <h2>Log</h2>
+    <div class="log" id="log"></div>
+  </div>
+
+  <div class="card">
+    <h2>Nulstil</h2>
+    <div class="row">
+      <button class="btn" id="reset-scores-btn">Nulstil kun point</button>
+      <button class="btn danger" id="reset-all-btn">Nulstil alt</button>
+    </div>
+  </div>
+</div>
+
+<div class="lock" id="lock">
+  <h1>Bro vs Bro</h1>
+  <p class="sub">Indtast panel-kode</p>
+  <input class="field" id="key-input" type="password" placeholder="Panel-kode" />
+  <button class="btn primary" id="unlock-btn">Lås op</button>
+</div>
+
+<div class="toast" id="toast">Forkert kode</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  let token = localStorage.getItem("bvb-panel-key") || "";
+  let requiresKey = false;
+  let state = null;
+
+  const app = document.getElementById("app");
+  const lock = document.getElementById("lock");
+  const toast = document.getElementById("toast");
+
+  document.getElementById("overlay-url").textContent = location.origin + "/overlay";
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2200);
+  }
+
+  function send(type, extra = {}) {
+    socket.emit("panel:action", { type, token, ...extra });
+  }
+
+  function tryUnlock() {
+    app.hidden = false;
+    lock.hidden = true;
+  }
+
+  document.getElementById("unlock-btn").addEventListener("click", () => {
+    token = document.getElementById("key-input").value;
+    localStorage.setItem("bvb-panel-key", token);
+    tryUnlock();
+  });
+
+  socket.on("config", (cfg) => {
+    requiresKey = cfg.requiresKey;
+    if (!requiresKey) { tryUnlock(); }
+    else if (token) { tryUnlock(); }
+    const row = document.getElementById("preset-row");
+    row.innerHTML = "";
+    cfg.dysterPreset.forEach((name) => {
+      const b = document.createElement("button");
+      b.className = "preset-btn";
+      b.textContent = name;
+      b.addEventListener("click", () => send("dyst:setCurrent", { name }));
+      row.appendChild(b);
+    });
+  });
+
+  socket.on("panel:denied", () => {
+    showToast("Forkert panel-kode");
+    app.hidden = true;
+    lock.hidden = false;
+    localStorage.removeItem("bvb-panel-key");
+  });
+
+  socket.on("state", (s) => {
+    state = s;
+    render();
+  });
+
+  function render() {
+    if (!state) return;
+    document.getElementById("score-marcelo").textContent = state.scores.marcelo;
+    document.getElementById("score-aggo").textContent = state.scores.aggo;
+    document.getElementById("current-name").textContent = state.current?.name || "—";
+    document.getElementById("round-pill").textContent = "Runde " + state.round;
+
+    const list = document.getElementById("queue-list");
+    list.innerHTML = "";
+    if (state.queue.length === 0) {
+      const li = document.createElement("li");
+      li.className = "empty";
+      li.textContent = "Køen er tom";
+      list.appendChild(li);
+    } else {
+      state.queue.forEach((d, i) => {
+        const li = document.createElement("li");
+        li.className = "queue-item";
+        li.innerHTML = '<span><span class="pos">' + (i + 1) + '.</span> ' + d.name + "</span>";
+        const btn = document.createElement("button");
+        btn.textContent = "✕";
+        btn.addEventListener("click", () => send("queue:remove", { id: d.id }));
+        li.appendChild(btn);
+        list.appendChild(li);
+      });
+    }
+
+    const log = document.getElementById("log");
+    log.innerHTML = "";
+    state.log.forEach((entry) => {
+      const div = document.createElement("div");
+      div.className = "log-item";
+      const t = document.createElement("time");
+      t.textContent = new Date(entry.at).toLocaleTimeString("da-DK", { hour: "2-digit", minute: "2-digit" });
+      div.appendChild(t);
+      const span = document.createElement("span");
+      span.textContent = entry.entry;
+      div.appendChild(span);
+      log.appendChild(div);
+    });
+  }
+
+  document.querySelectorAll(".score-btn[data-action]").forEach((btn) => {
+    btn.addEventListener("click", () => send(btn.dataset.action, { player: btn.dataset.player }));
+  });
+
+  document.getElementById("set-dyst-btn").addEventListener("click", () => {
+    const input = document.getElementById("dyst-input");
+    if (input.value.trim()) { send("dyst:setCurrent", { name: input.value.trim() }); input.value = ""; }
+  });
+  document.getElementById("dyst-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("set-dyst-btn").click();
+  });
+
+  document.getElementById("queue-add-btn").addEventListener("click", () => {
+    const input = document.getElementById("queue-input");
+    if (input.value.trim()) { send("queue:add", { name: input.value.trim() }); input.value = ""; }
+  });
+  document.getElementById("queue-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("queue-add-btn").click();
+  });
+
+  document.getElementById("next-btn").addEventListener("click", () => send("dyst:next"));
+  document.getElementById("reset-scores-btn").addEventListener("click", () => {
+    if (confirm("Nulstil point for begge spillere?")) send("reset:scores");
+  });
+  document.getElementById("reset-all-btn").addEventListener("click", () => {
+    if (confirm("Nulstil ALT — point, runde og kø?")) send("reset:all");
+  });
+</script>
+</body>
+</html>
