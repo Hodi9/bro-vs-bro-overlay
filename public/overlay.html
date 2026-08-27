@@ -118,6 +118,7 @@
     color: var(--ink);
   }
   .sb-center .round-num { font-family: 'VT323', monospace; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--coin); }
+  .sb-center .dyst-name { font-family: 'VT323', monospace; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bone); max-width: 88px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   /* ---------- fight card / character select ---------- */
   #fightcard-view {
@@ -232,6 +233,7 @@
       <div class="sb-center">
         <div class="vs-diamond"><span>VS</span></div>
         <span class="round-num" id="sb-round-num">Runde 1</span>
+        <span class="dyst-name" id="sb-dyst-name"></span>
       </div>
       <div class="sb-side sb-aggo">
         <span class="sb-score" id="sb-aggo-score">0</span>
@@ -307,6 +309,12 @@
     if (sbA) { if (state.scores.aggo !== lastScores.aggo) bump(sbA); sbA.textContent = state.scores.aggo; }
     const rn = document.getElementById("sb-round-num");
     if (rn) rn.textContent = "Runde " + state.round;
+    const dn = document.getElementById("sb-dyst-name");
+    if (dn) {
+      const dystName = state.current?.name || "";
+      dn.textContent = dystName;
+      dn.style.display = dystName ? "block" : "none";
+    }
 
     lastScores = { ...state.scores };
   });

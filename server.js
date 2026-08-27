@@ -22,8 +22,8 @@ function loadState() {
     return {
       scores: { marcelo: 0, aggo: 0 },
       round: 1,
-      current: { name: "Dart", corner: "marcelo" },
-      queue: DEFAULT_DYSTER.slice(1).map((name) => ({ id: crypto.randomUUID(), name })),
+      current: null,
+      queue: DEFAULT_DYSTER.map((name) => ({ id: crypto.randomUUID(), name })),
       log: [],
     };
   }
@@ -109,7 +109,7 @@ io.on("connection", (socket) => {
       }
       case "corner:set": {
         if (payload.corner === "marcelo" || payload.corner === "aggo") {
-          state.current.corner = payload.corner;
+          state.current = { name: state.current?.name || null, corner: payload.corner };
         }
         break;
       }
@@ -156,8 +156,8 @@ io.on("connection", (socket) => {
         state = {
           scores: { marcelo: 0, aggo: 0 },
           round: 1,
-          current: { name: "Dart", corner: "marcelo" },
-          queue: DEFAULT_DYSTER.slice(1).map((name) => ({ id: crypto.randomUUID(), name })),
+          current: null,
+          queue: DEFAULT_DYSTER.map((name) => ({ id: crypto.randomUUID(), name })),
           log: [],
         };
         pushLog("Alt nulstillet");
