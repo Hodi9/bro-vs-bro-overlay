@@ -183,13 +183,20 @@
     border-left: 6px dashed var(--coin);
     opacity: 0.9;
   }
-  .hero-title { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 7; text-align: center; }
+  .hero-title { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 7; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
   .hero-title .lockup {
     font-family: 'Press Start 2P', monospace;
     font-size: 65px;
     letter-spacing: 0.02em;
     color: var(--bone);
     text-shadow: 5px 5px 0 var(--p1), 11px 11px 0 var(--p2);
+  }
+  .hero-title .lockup-sub {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px;
+    letter-spacing: 0.12em;
+    color: var(--coin);
+    text-shadow: 3px 3px 0 var(--ink);
   }
 </style>
 </head>
@@ -221,7 +228,7 @@
    <div class="stage">
     <div class="hero">
       <div class="hero-inner">
-        <div class="hero-title"><span class="lockup">BRO VS BRO</span></div>
+        <div class="hero-title"><span class="lockup">BRO VS BRO</span><span class="lockup-sub">IRL EDITION</span></div>
         <div class="corner marcelo-corner">
           <img class="corner-photo" src="/images/marcelo.png" alt="Marcelo" />
           <div class="pixel-scan"></div>
