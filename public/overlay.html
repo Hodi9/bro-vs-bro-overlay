@@ -120,7 +120,16 @@
   .sb-center .round-num { font-family: 'VT323', monospace; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--coin); }
 
   /* ---------- fight card / character select ---------- */
-  #fightcard-view { width: 1920px; height: 1080px; position: relative; background: var(--ink); }
+  #fightcard-view {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
+    overflow: hidden;
+  }
+  #fightcard-view .stage { width: 1920px; height: 1080px; flex-shrink: 0; transform-origin: center center; }
   .hero { position: relative; width: 100%; height: 100%; overflow: hidden; }
   .hero-inner { position: relative; width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; }
 
@@ -234,6 +243,7 @@
   </div>
 
   <div id="fightcard-view" data-view>
+   <div class="stage">
     <div class="hero">
       <div class="hero-inner">
         <div class="hero-title"><span class="lockup">BRO VS BRO</span></div>
@@ -261,6 +271,7 @@
       </div>
       <div class="scanlines"></div>
     </div>
+   </div>
   </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -270,6 +281,15 @@
   document.querySelectorAll("[data-view]").forEach((el) => el.classList.remove("active"));
   const active = document.getElementById(view + "-view");
   (active || document.getElementById("scoreboard-view")).classList.add("active");
+
+  function scaleStage() {
+    const stage = document.querySelector("#fightcard-view .stage");
+    if (!stage) return;
+    const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = "scale(" + scale + ")";
+  }
+  scaleStage();
+  window.addEventListener("resize", scaleStage);
 
   const socket = io();
   let lastScores = { marcelo: 0, aggo: 0 };
